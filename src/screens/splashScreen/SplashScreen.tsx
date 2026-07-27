@@ -5,6 +5,7 @@ import { IMAGES } from '../../assets/images';
 import { TextLabel } from '../../commons';
 import useSplashModalView from './useSplashModalView';
 import { styles } from './Styles';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const SplashScreen = () => {
     const {
@@ -21,7 +22,7 @@ const SplashScreen = () => {
         subtitleTranslateY
     } = useSplashModalView()
     return (
-        <View style={styles.container}>
+        <SafeAreaProvider style={styles.container}>
             <View style={styles.content}>
                 <View style={styles.logoWrapper}>
                     <Animated.View
@@ -90,7 +91,7 @@ const SplashScreen = () => {
                 <TextLabel text={`AI-Based Real-Time Accident\nDetection and Alert System`} style={styles.subtitle} />
 
             </Animated.View>
-        </View>
+        </SafeAreaProvider>
     );
 };
 

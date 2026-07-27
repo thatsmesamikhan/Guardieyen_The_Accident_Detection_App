@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, TextProps, TextStyle } from 'react-native';
+import { StyleProp, StyleSheet, Text, TextProps, TextStyle } from 'react-native';
 import { COLORS, FONT } from '../../enums/StyleGuide';
 
 interface Props extends TextProps {
-    text?: string;
-    style?: TextStyle | TextStyle[];
+    text?: string | React.ReactNode;
+    style?: StyleProp<TextStyle>;
     children?: React.ReactNode;
 }
 

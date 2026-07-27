@@ -1,6 +1,10 @@
+import AddContactScreen from "./addContactScreen"
+import ContactsScreen from "./contactsScreen"
+import HistoryScreen from "./historyScreen"
 import HomeScreen from "./homeScreen"
 import LoginScreen from "./loginScreen"
 import OnBoardingScreens from "./onBoardingScreens"
+import ProfileScreen from "./profileScreen"
 import RegisterScreen from "./registerScreen"
 import SplashScreen from "./splashScreen"
 
@@ -9,5 +13,9 @@ export {
     OnBoardingScreens,
     LoginScreen,
     RegisterScreen,
-    HomeScreen
+    HomeScreen,
+    ContactsScreen,
+    HistoryScreen,
+    ProfileScreen,
+    AddContactScreen
 }

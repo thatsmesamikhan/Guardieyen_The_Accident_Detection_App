@@ -26,7 +26,7 @@ export const COLORS = {
     red: '#E12222',
     darkRed: '#FF0000',
     darkBlue: '#1E3A8A',
-    bgColor: '#FAF9FE',
+    bgColor: '#FFF8F8',
     lightWhite: 'rgba(246, 246, 248, 1)',
     lightWhite2: 'rgba(255, 255, 255, 1)',
     lightWhite3: 'rgba(255, 255, 255, 0.5)',
@@ -45,9 +45,10 @@ export const COLORS = {
     grey4: "rgb(27, 27, 27,1)",
     grey5: "#222222",
     textColor: '#003A70',
-    lightGrey: 'lightGrey',
+    lightGrey: '#f6f1f1e6',
     muted: '#6B6F7A',
-    textDarkColor: '#00244A'
+    textDarkColor: '#00244A',
+    lightRed: '#FBE6E6'
 }
 
 export const FONT = {

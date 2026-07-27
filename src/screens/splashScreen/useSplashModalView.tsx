@@ -13,7 +13,6 @@ const useSplashModalView = () => {
     const dividerWidth = useRef(new Animated.Value(0)).current;
     const subtitleOpacity = useRef(new Animated.Value(0)).current;
     const subtitleTranslateY = useRef(new Animated.Value(10)).current;
-
     const glowScale = useRef(new Animated.Value(1)).current;
     const glowOpacity = useRef(new Animated.Value(0.35)).current;
     const ringScale = useRef(new Animated.Value(1)).current;

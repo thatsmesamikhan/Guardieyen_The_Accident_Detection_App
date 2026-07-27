@@ -1,10 +1,13 @@
-import React from 'react'
-import RootNavigators from './src/navigators/RootNavigators'
+import React from 'react';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
+import RootNavigators from './src/navigators/RootNavigators';
 
 const App = () => {
   return (
-    <RootNavigators />
-  )
-}
+    <KeyboardProvider>
+      <RootNavigators />
+    </KeyboardProvider>
+  );
+};
 
-export default App
+export default App;
