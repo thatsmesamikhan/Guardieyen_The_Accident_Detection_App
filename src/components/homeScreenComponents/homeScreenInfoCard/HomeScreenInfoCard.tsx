@@ -28,7 +28,7 @@ const HomeScreenInfoCard = ({ item }: itemProp) => {
     )
 }
 
-export default HomeScreenInfoCard
+export default React.memo(HomeScreenInfoCard)
 
 const styles = StyleSheet.create({
     container: {

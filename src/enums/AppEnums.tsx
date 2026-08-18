@@ -6,8 +6,15 @@ export const SCREENS = {
     HOME_SCREEN: 'HomeScreen',
     CONTACTS_SCREEN: 'ContactsScreen',
     HISTORY_SCREEN: 'HistoryScreen',
+    SETTINGS_SCREEN: 'SettingsScreen',
+    ADD_CONTACT_SCREEN: 'AddContactScreen',
     PROFILE_SCREEN: 'ProfileScreen',
-    ADD_CONTACT_SCREEN: 'AddContactScreen'
+    EDIT_NAME_SCREEN: 'EditNameScreen',
+    CHANGE_PASSWORD_SCREEN: 'ChangePasswordScreen',
+    MEDICAL_INFO_SCREEN: 'MedicalInfoScreen',
+    PRIVACY_POLICY_SCREEN: 'PrivacyPolicyScreen',
+    TERMS_AND_CONDITIONS_SCREEN: 'TermsAndConditionsScreen',
+    DANGER_ZONE_SCREEN: 'DangerZoneScreen'
 }
 
 export const BOTTOM_TAB = {

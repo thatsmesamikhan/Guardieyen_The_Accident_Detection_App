@@ -90,7 +90,7 @@ const SwitchButton = ({
     );
 };
 
-export default SwitchButton;
+export default React.memo(SwitchButton);
 
 const styles = StyleSheet.create({
     container: {

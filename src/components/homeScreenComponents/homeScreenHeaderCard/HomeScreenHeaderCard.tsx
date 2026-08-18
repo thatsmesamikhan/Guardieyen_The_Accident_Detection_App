@@ -47,7 +47,7 @@ const HomeScreenHeaderCard = ({ containerStyle, switchPress, isSwitchOn, lastUpd
     )
 }
 
-export default HomeScreenHeaderCard
+export default React.memo(HomeScreenHeaderCard)
 
 const styles = StyleSheet.create({
     container: {
@@ -56,8 +56,8 @@ const styles = StyleSheet.create({
         padding: 15,
         backgroundColor: COLORS.white,
         marginTop: hp('2%'),
-        borderWidth : 0.7,
-        borderColor : COLORS.red,
+        borderWidth: 0.7,
+        borderColor: COLORS.red,
     },
     topRow: {
         flexDirection: 'row',

@@ -2,45 +2,12 @@ import { StyleSheet, View, SectionList, Image, TouchableOpacity } from 'react-na
 import React from 'react'
 import { ACTIVE_OPACITY, COLORS, FONT, hp } from '../../enums/StyleGuide'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { IconButton, NavBar, TextLabel } from '../../commons'
+import { NavBar, TextLabel } from '../../commons'
 import { IMAGES } from '../../assets/images'
 import { ContactCard } from '../../components'
 import { useNavigation } from '@react-navigation/native';
 import { SCREENS } from '../../enums'
-
-type RelationType = 'Spouse' | 'Parent' | 'Sibling' | 'Friend' | 'Other'
-
-interface Contact {
-    id: number
-    title: string
-    relation: RelationType
-    image: any
-}
-
-interface Section {
-    title: string
-    data: Contact[]
-}
-
-const contacts: Contact[] = [
-    { id: 1, title: 'Ayesha Khan', relation: 'Spouse', image: IMAGES.USER },
-    { id: 2, title: 'Tariq Khan', relation: 'Parent', image: IMAGES.USER },
-    { id: 3, title: 'Naz Khan', relation: 'Parent', image: IMAGES.USER },
-    { id: 4, title: 'Sami Khan', relation: 'Sibling', image: IMAGES.USER },
-    { id: 5, title: 'Ali Khan', relation: 'Sibling', image: IMAGES.USER },
-    { id: 6, title: 'Adeel Khan', relation: 'Sibling', image: IMAGES.USER },
-    { id: 7, title: 'Hamza Sheikh', relation: 'Friend', image: IMAGES.USER },
-    { id: 8, title: 'Bilal Ahmed', relation: 'Friend', image: IMAGES.USER },
-    { id: 9, title: 'Dr. Fatima Malik', relation: 'Other', image: IMAGES.USER },
-]
-
-const SECTION_ORDER: { key: RelationType; label: string }[] = [
-    { key: 'Spouse', label: 'Spouse' },
-    { key: 'Parent', label: 'Parents' },
-    { key: 'Sibling', label: 'Siblings' },
-    { key: 'Friend', label: 'Friends' },
-    { key: 'Other', label: 'Other' },
-]
+import { contacts, Section, SECTION_ORDER } from '../../dummy/Dummies'
 
 const ContactsScreen = () => {
     const navigation = useNavigation<any>()
@@ -81,7 +48,7 @@ const ContactsScreen = () => {
                         <TextLabel text={`${section.data.length}`} style={styles.sectionCount} />
                     </View>
                 )}
-                renderItem={({ item }) => <ContactCard item={item} />}
+                renderItem={({ item }) => <ContactCard item={item} container={{ backgroundColor: COLORS.white }} subTitleStyle={{ color: COLORS.black }} />}
                 SectionSeparatorComponent={() => <View style={{ height: hp('0.6%') }} />}
                 ListFooterComponent={
                     totalContacts > 0 ? (
@@ -116,7 +83,7 @@ const styles = StyleSheet.create({
     infoBanner: {
         flexDirection: 'row',
         alignItems: 'flex-start',
-        backgroundColor: COLORS.white,
+        backgroundColor: COLORS.lightRed,
         borderRadius: 14,
         padding: 14,
         marginTop: hp('1.8%'),
@@ -149,7 +116,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: hp('1%'),
-        // marginBottom: hp('1%')
     },
     sectionTitle: {
         fontFamily: FONT.semiBold,
@@ -181,8 +147,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 16,
         backgroundColor: COLORS.red,
-        paddingVertical: 7,
-        paddingHorizontal: 10,
+        paddingVertical: 9,
+        paddingHorizontal: 13,
         flexDirection: 'row',
         gap: 5,
         position: 'absolute',

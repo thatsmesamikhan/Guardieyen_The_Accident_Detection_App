@@ -2,89 +2,20 @@ import { Alert, Pressable, StyleSheet, View } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { COLORS, FONT, hp } from '../../enums/StyleGuide'
-import { IconButton, NavBar, TextLabel } from '../../commons'
+import { IconButton, KeyboardAware, NavBar, TextLabel } from '../../commons'
 import { IMAGES } from '../../assets/images'
-import { ContactCard, HomeScreenHeaderCard, HomeScreenInfoCard } from '../../components'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
+import { AllergiesCard, BloodGroupInfoCard, ContactCard, HomeScreenHeaderCard, HomeScreenInfoCard, LocationInfoCard } from '../../components'
+import { allergiesData, bloodGroupInfoData, contactsInfo, homeScreenInfoData, locationInfoData } from '../../dummy/Dummies'
 
 const HomeScreen = () => {
     const [isSwitchOn, setIsSwitchOn] = useState(false)
 
-    const homeScreenInfoData = [
-        { id: 1, title: 'Sensors', info: 'Active', icon: IMAGES.SENSORS },
-        { id: 2, title: 'GPS', info: 'Connected', icon: IMAGES.GPS },
-        { id: 3, title: 'Background', info: 'Running', icon: IMAGES.BACKGROUND },
-        { id: 4, title: 'Contacts', info: 'Ready', icon: IMAGES.CONTACTS },
-    ]
-
-    const contacts = [
-        { id: 1, title: 'Sami Khan', relation: 'Brother', image: IMAGES.USER },
-        { id: 2, title: 'Ali Khan', relation: 'Brother', image: IMAGES.USER },
-        { id: 3, title: 'Adeel Khan', relation: 'Brother', image: IMAGES.USER },
-    ]
-
-    const bloodGroupInfoData = [
-        { id: 1, title: 'BLOOD GROUP', info: 'O+' },
-        { id: 2, title: 'CONDITIONS', info: 'Asthma' },
-    ]
-
-    const BloodGroupInfoCard = ({ item }: any) => {
-        return (
-            <View style={{
-                width: '50%',
-                justifyContent: 'flex-start',
-                alignItems: 'flex-start'
-            }}>
-                <TextLabel numberOfLines={1} text={item?.title} style={styles.titleStyle} />
-                <TextLabel numberOfLines={1} text={item?.info} style={[styles.infoStyle, { marginTop: hp('0.5%') }]} />
-            </View>
-        )
-    }
-
-    const allergiesData = [
-        { id: 1, allergies: 'Peanuts' },
-        { id: 2, allergies: 'Penicillin' },
-        { id: 3, allergies: 'Dust' },
-    ]
-
-    const AllergiesCard = ({ item }: any) => {
-        return (
-            <View style={styles.safetyBadge}>
-                <TextLabel text={item?.allergies} style={styles.safetyBadgeText} />
-            </View>
-        )
-    }
-
-    const locationInfoData = [
-        { id: 1, title: 'LATITUDE', info: '28.4201° N' },
-        { id: 2, title: 'LONGITUDE', info: '70.2954° E' },
-        { id: 3, title: 'ACCURACY', info: '±6m' },
-    ]
-
-    const LocationInfoCard = ({ item }: any) => {
-        return (
-            <View style={{
-                width: '33.33%',
-                justifyContent: 'flex-start',
-                alignItems: 'flex-start',
-                marginTop: hp('1%')
-            }}>
-                <TextLabel numberOfLines={1} text={item?.title} style={[styles.titleStyle, { color: COLORS.lightRed }]} />
-                <TextLabel numberOfLines={1} text={item?.info} style={[styles.infoStyle, { marginTop: hp('0.5%'), color: COLORS.white }]} />
-            </View>
-        )
-    }
-
     return (
         <SafeAreaView edges={['top']} style={styles.safeView}>
             <NavBar headerLabel='Hi, Sami Khan' subHeaderLabel='Monitoring active & secure' rightSource={IMAGES.BELL} />
-            <KeyboardAwareScrollView
-                style={styles.scroll}
-                contentContainerStyle={styles.scrollContent}
-                keyboardShouldPersistTaps="handled"
-                showsVerticalScrollIndicator={false}
-                bottomOffset={20}
-            >
+            <KeyboardAware>
+
+                {/* HEADER */}
                 <HomeScreenHeaderCard
                     isSwitchOn={isSwitchOn}
                     switchPress={() => setIsSwitchOn(prev => !prev)}
@@ -92,19 +23,24 @@ const HomeScreen = () => {
                     percentOfSafeScore={98}
                 />
 
+                {/* COMPONENTS INFO */}
                 <View style={styles.infoContainer}>
                     {
                         homeScreenInfoData.map((item) => <HomeScreenInfoCard key={item?.id} item={item} />)
                     }
                 </View>
+
+                {/* EMERGENCY CONTACTS HEADER */}
                 <View style={styles.contactsTextContainer}>
                     <TextLabel text='Emergency Contacts' style={styles.emergencyLabel} />
                     <TextLabel selectable text='+ Add Contact' style={styles.addContactLabel} />
                 </View>
 
                 {
-                    contacts.map((item) => <ContactCard key={item?.id} item={item} />)
+                    contactsInfo.map((item) => <ContactCard key={item?.id} item={item} />)
                 }
+
+                {/* MED INFO CARD */}
                 <View style={styles.medInfoCard}>
                     <View style={styles.medInfoHeader}>
                         <View style={styles.medInfoTitle}>
@@ -131,6 +67,8 @@ const HomeScreen = () => {
                     </View>
                     <TextLabel numberOfLines={4} text={'Carries inhaler in side pocket of backpack.Contact Dr. Aris if respiratory distress persists.'} style={{ fontSize: 14, marginTop: hp('0.5%') }} />
                 </View>
+
+                {/* LOCATION INFO CARD */}
                 <View style={styles.locationContainer}>
                     <View style={styles.medInfoHeader}>
                         <View style={styles.medInfoTitle}>
@@ -147,6 +85,8 @@ const HomeScreen = () => {
                         }
                     </View>
                 </View>
+
+                {/* SOS BUTTON */}
                 <Pressable
                     delayLongPress={2000}
                     onLongPress={() => Alert.alert('Contacts Alerted')} android_ripple={{ color: COLORS.lightGrey }} style={styles.emergencySosButton}>
@@ -157,7 +97,7 @@ const HomeScreen = () => {
                     </View>
                 </Pressable>
 
-            </KeyboardAwareScrollView>
+            </KeyboardAware>
         </SafeAreaView>
     )
 }
@@ -168,15 +108,6 @@ const styles = StyleSheet.create({
     safeView: {
         flex: 1,
         backgroundColor: COLORS.bgColor,
-    },
-    scroll: {
-        flex: 1,
-    },
-    scrollContent: {
-        flexGrow: 1,
-        alignItems: 'center',
-        paddingHorizontal: 16,
-        paddingBottom: hp('15%')
     },
     infoContainer: {
         width: '100%',

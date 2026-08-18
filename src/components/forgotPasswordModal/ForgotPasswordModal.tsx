@@ -125,7 +125,7 @@ const ForgotPasswordModal = ({
     );
 };
 
-export default ForgotPasswordModal;
+export default React.memo(ForgotPasswordModal);
 
 const styles = StyleSheet.create({
     backdrop: {

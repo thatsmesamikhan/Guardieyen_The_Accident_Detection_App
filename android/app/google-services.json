@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1003397187774",
+    "project_id": "guardieyen",
+    "storage_bucket": "guardieyen.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1003397187774:android:95d67742108964933636ef",
+        "android_client_info": {
+          "package_name": "com.guardieyen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1003397187774-vlmef3mtdhrdb96ihlecahsj2pqsga2q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.guardieyen",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "1003397187774-bavm7tq8sv292gva4f312g0pur0eklf2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhB_z_e7FpqtCcOAWleui2yuS1w5oj_OM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1003397187774-bavm7tq8sv292gva4f312g0pur0eklf2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

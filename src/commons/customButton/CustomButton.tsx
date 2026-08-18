@@ -20,6 +20,7 @@ export interface CustomButtonProps extends PressableProps {
     accessLabel?: string;
     accessHint?: string;
     testID?: string;
+    loaderColor?: string
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
@@ -38,6 +39,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
     accessLabel,
     accessHint,
     testID,
+    loaderColor,
     ...rest
 }) => {
     return (
@@ -63,7 +65,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
                     ]}
                 >
                     {loading ? (
-                        <ActivityIndicator color={COLORS.white} />
+                        <ActivityIndicator color={loaderColor} size={'small'} />
                     ) : children ? (
                         children
                     ) : (
@@ -95,7 +97,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
-        gap : '2%'
+        gap: '2%'
     },
     buttonText: {
         fontSize: 16,

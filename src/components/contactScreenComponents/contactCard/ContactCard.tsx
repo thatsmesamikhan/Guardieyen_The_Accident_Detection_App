@@ -1,6 +1,6 @@
 import React from 'react';
-import { ImageSourcePropType, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { COLORS, FONT, hp } from '../../../enums/StyleGuide';
+import { ImageSourcePropType, StyleProp, StyleSheet, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native';
+import { ACTIVE_OPACITY, COLORS, FONT, hp } from '../../../enums/StyleGuide';
 import { IconButton, TextLabel } from '../../../commons';
 
 interface Contact {
@@ -12,14 +12,16 @@ interface Contact {
 interface Props {
     item: Contact;
     onPress?: () => void;
+    container?: StyleProp<ViewStyle>
+    subTitleStyle?: StyleProp<TextStyle>
 }
 
-const ContactCard = ({ item, onPress }: Props) => {
+const ContactCard = ({ item, onPress, container, subTitleStyle }: Props) => {
     return (
         <TouchableOpacity
-            activeOpacity={0.9}
+            activeOpacity={ACTIVE_OPACITY}
             onPress={onPress}
-            style={styles.container}>
+            style={[styles.container, container]}>
             <View style={styles.leftContainer}>
                 <View style={styles.avatarContainer}>
                     <IconButton
@@ -39,7 +41,7 @@ const ContactCard = ({ item, onPress }: Props) => {
 
                     <TextLabel
                         text={item.relation}
-                        style={styles.subtitle}
+                        style={[styles.subtitle, subTitleStyle]}
                         numberOfLines={1}
                     />
                 </View>
@@ -55,11 +57,11 @@ const ContactCard = ({ item, onPress }: Props) => {
     );
 };
 
-export default ContactCard;
+export default React.memo(ContactCard);
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: COLORS.white,
+        backgroundColor: COLORS.black,
         borderRadius: 22,
         marginTop: hp('1%'),
         paddingHorizontal: 16,
@@ -76,7 +78,7 @@ const styles = StyleSheet.create({
             width: 0,
             height: 3,
         },
-        elevation: 3,
+        elevation: 5,
     },
     leftContainer: {
         flexDirection: 'row',
@@ -91,6 +93,8 @@ const styles = StyleSheet.create({
         height: 56,
         borderRadius: 28,
         backgroundColor: '#F8F8F8',
+        borderColor: COLORS.red,
+        borderWidth: 2
     },
     avatar: {
         width: 56,
@@ -104,12 +108,12 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 16,
         fontFamily: FONT.semiBold,
-        color: '#111827',
+        color: COLORS.red,
     },
     subtitle: {
         marginTop: 4,
         fontSize: 13,
-        color: '#6B7280',
+        color: COLORS.white,
     },
     rightContainer: {
         alignItems: 'flex-end',
@@ -119,9 +123,7 @@ const styles = StyleSheet.create({
     badge: {
         flexDirection: 'row',
         alignItems: 'center',
-
-        backgroundColor: '#ECFDF3',
-
+        backgroundColor: COLORS.green,
         paddingHorizontal: 10,
         height: 28,
         borderRadius: 20,
@@ -130,13 +132,13 @@ const styles = StyleSheet.create({
         width: 8,
         height: 8,
         borderRadius: 4,
-        backgroundColor: '#22C55E',
+        backgroundColor: '#ECFDF3',
         marginRight: 6,
     },
     badgeText: {
         fontSize: 12,
         fontFamily: FONT.medium,
-        color: '#16A34A',
+        color: '#ECFDF3',
     },
     arrow: {
         width: 18,

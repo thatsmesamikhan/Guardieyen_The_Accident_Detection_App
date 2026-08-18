@@ -4,6 +4,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 export const ACTIVE_OPACITY = 0.75;
 export const WIDTH = Dimensions.get('window').width
 export const HEIGHT = Dimensions.get('window').height
+export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export { wp, hp }
 
@@ -133,6 +134,10 @@ export const TEXT_STYLE = StyleSheet.create({
 })
 
 export const commonStyles = StyleSheet.create({
+    safeView: {
+        flex: 1,
+        backgroundColor: COLORS.bgColor,
+    },
     horizontalView: {
         alignItems: 'center',
         flexDirection: 'row',

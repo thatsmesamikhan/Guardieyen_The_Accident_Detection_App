@@ -4,8 +4,9 @@ import HistoryScreen from "./historyScreen"
 import HomeScreen from "./homeScreen"
 import LoginScreen from "./loginScreen"
 import OnBoardingScreens from "./onBoardingScreens"
-import ProfileScreen from "./profileScreen"
 import RegisterScreen from "./registerScreen"
+import { ChangePasswordScreen, DangerZoneScreen, EditNameScreen, MedicalInfoScreen, PrivacyPolicyScreen, ProfileScreen, SettingsScreen } from "./settingsScreen"
+import TermsAndConditionsScreen from "./settingsScreen/termsAndCondtionsScreen"
 import SplashScreen from "./splashScreen"
 
 export {
@@ -17,5 +18,12 @@ export {
     ContactsScreen,
     HistoryScreen,
     ProfileScreen,
-    AddContactScreen
+    AddContactScreen,
+    SettingsScreen,
+    EditNameScreen,
+    ChangePasswordScreen,
+    MedicalInfoScreen,
+    PrivacyPolicyScreen,
+    DangerZoneScreen,
+    TermsAndConditionsScreen
 }

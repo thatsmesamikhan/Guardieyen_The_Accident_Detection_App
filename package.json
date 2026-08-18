@@ -10,6 +10,12 @@
     "test": "jest"
   },
   "dependencies": {
+    "@notifee/react-native": "^9.1.8",
+    "@react-native-firebase/app": "^26.1.0",
+    "@react-native-firebase/auth": "^26.1.0",
+    "@react-native-firebase/firestore": "^26.1.0",
+    "@react-native-firebase/messaging": "^26.1.0",
+    "@react-native-google-signin/google-signin": "^16.1.4",
     "@react-native-masked-view/masked-view": "^0.3.2",
     "@react-native/new-app-screen": "0.86.0",
     "@react-navigation/bottom-tabs": "^7.18.11",
@@ -31,6 +37,8 @@
     "react-native-responsive-screen": "^1.4.2",
     "react-native-safe-area-context": "^5.8.0",
     "react-native-screens": "^4.26.2",
+    "react-native-timeline-flatlist": "^1.0.1",
+    "react-native-toast-message": "^2.4.0",
     "react-native-worklets": "^0.11.1"
   },
   "devDependencies": {

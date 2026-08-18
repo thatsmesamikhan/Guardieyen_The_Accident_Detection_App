@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import {
     Image,
     ImageSourcePropType,
@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { TextInput as PaperTextInput } from 'react-native-paper';
 import { COLORS, FONT, hp, wp } from '../../enums/StyleGuide';
+import { IMAGES } from '../../assets/images';
 
 type IconSource = ImageSourcePropType | React.ReactElement;
 
@@ -96,6 +97,55 @@ const InputField = forwardRef<any, Props>(
         const showPasswordToggle =
             secureTextEntry && !hasCustomRightIcon && !disableAutoPasswordToggle;
 
+        // This field may be used uncontrolled (no value/onChangeText from the
+        // parent), as is the case for the Password / Confirm Password fields.
+        // We still need to remount the native input below to reliably
+        // re-apply Android's secure-text masking, so we keep an internal
+        // fallback copy of whatever was typed to survive that remount.
+        const isControlled = value !== undefined;
+        const [internalValue, setInternalValue] = useState('');
+        const displayValue = isControlled ? value : internalValue;
+
+        const handleChangeText = (text: string) => {
+            if (!isControlled) {
+                setInternalValue(text);
+            }
+            onChangeText?.(text);
+        };
+
+        // Android sometimes fails to re-apply password masking on an
+        // already-mounted TextInput when `secureTextEntry` flips back to
+        // true. Remounting just this field's input (via `key`) fixes it
+        // reliably. The key is derived purely from this instance's own
+        // state, so it can never affect any other InputField on screen.
+        const inputKey = secureTextEntry
+            ? (isPasswordVisible ? 'text-visible' : 'text-hidden')
+            : undefined;
+
+        const inputRef = useRef<any>(null);
+        const hasMountedRef = useRef(false);
+
+        useEffect(() => {
+            if (!hasMountedRef.current) {
+                hasMountedRef.current = true;
+                return;
+            }
+            // Re-focus after the remount so the keyboard stays open and the
+            // user can keep typing right where they left off.
+            if (secureTextEntry) {
+                inputRef.current?.focus?.();
+            }
+        }, [isPasswordVisible, secureTextEntry]);
+
+        const setRefs = (node: any) => {
+            inputRef.current = node;
+            if (typeof ref === 'function') {
+                ref(node);
+            } else if (ref) {
+                (ref as React.MutableRefObject<any>).current = node;
+            }
+        };
+
         const renderIcon = (
             iconSource: IconSource,
             onPress?: () => void,
@@ -121,7 +171,13 @@ const InputField = forwardRef<any, Props>(
 
         const renderPasswordToggle = () => (
             <PaperTextInput.Icon
-                icon={isPasswordVisible ? 'eye-off-outline' : 'eye-outline'}
+                icon={() => (
+                    <Image
+                        source={isPasswordVisible ? IMAGES.EYE_WITH_LINE : IMAGES.EYE}
+                        style={styles.iconStyle}
+                        resizeMode="contain"
+                    />
+                )}
                 color={COLORS.grey3}
                 onPress={() => setIsPasswordVisible(prev => !prev)}
                 forceTextInputFocus={false}
@@ -138,7 +194,8 @@ const InputField = forwardRef<any, Props>(
                 )}
 
                 <PaperTextInput
-                    ref={ref}
+                    key={inputKey}
+                    ref={setRefs}
                     testID={testID}
                     mode="outlined"
                     label={placeHolder}
@@ -147,10 +204,10 @@ const InputField = forwardRef<any, Props>(
                     returnKeyType={returnKeyType}
                     keyboardType={keyBoardType}
                     editable={editable}
-                    value={value}
+                    value={displayValue}
                     multiline={multiLine}
                     numberOfLines={multiLine ? numberOfLines ?? 4 : 1}
-                    onChangeText={onChangeText}
+                    onChangeText={handleChangeText}
                     secureTextEntry={secureTextEntry && !isPasswordVisible}
                     selectionColor={COLORS.black}
                     cursorColor={COLORS.black}
@@ -190,7 +247,7 @@ const InputField = forwardRef<any, Props>(
                     theme={{
                         roundness: 10,
                         colors: {
-                            error: COLORS.black,
+                            error: COLORS.red,
                             onSurfaceVariant: isFocused ? COLORS.black : COLORS.grey3,
                             background: editable ? COLORS.white : '#F4F4F5',
                         },
@@ -234,6 +291,7 @@ const styles = StyleSheet.create({
     },
     inputFieldStyle: {
         width: '100%',
+        height: hp('5.5%'),
         backgroundColor: COLORS.white,
         fontFamily: FONT.medium,
         fontSize: 15,

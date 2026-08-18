@@ -19,14 +19,14 @@ const tabIcons: Record<string, any> = {
     [SCREENS.HOME_SCREEN]: IMAGES.HOME,
     [SCREENS.CONTACTS_SCREEN]: IMAGES.CONTACTS,
     [SCREENS.HISTORY_SCREEN]: IMAGES.HISTORY,
-    [SCREENS.PROFILE_SCREEN]: IMAGES.USER,
+    [SCREENS.SETTINGS_SCREEN]: IMAGES.SETTINGS,
 };
 
 const tabLabels: Record<string, string> = {
     [SCREENS.HOME_SCREEN]: 'Home',
     [SCREENS.CONTACTS_SCREEN]: 'Contacts',
     [SCREENS.HISTORY_SCREEN]: 'History',
-    [SCREENS.PROFILE_SCREEN]: 'Profile',
+    [SCREENS.SETTINGS_SCREEN]: 'Settings',
 };
 
 interface TabButtonProps {
@@ -154,7 +154,7 @@ const BottomNavigators = () => {
             <Tab.Screen options={{ tabBarLabel: 'Home' }} name={SCREENS.HOME_SCREEN} component={ui.HomeScreen} />
             <Tab.Screen options={{ tabBarLabel: 'Contacts' }} name={SCREENS.CONTACTS_SCREEN} component={ui.ContactsScreen} />
             <Tab.Screen options={{ tabBarLabel: 'History' }} name={SCREENS.HISTORY_SCREEN} component={ui.HistoryScreen} />
-            <Tab.Screen options={{ tabBarLabel: 'Profile' }} name={SCREENS.PROFILE_SCREEN} component={ui.ProfileScreen} />
+            <Tab.Screen options={{ tabBarLabel: 'Settings' }} name={SCREENS.SETTINGS_SCREEN} component={ui.SettingsScreen} />
         </Tab.Navigator>
     );
 };

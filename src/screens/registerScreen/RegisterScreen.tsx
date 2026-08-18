@@ -1,53 +1,47 @@
-import React, { useState } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import React from 'react';
+import { Image, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
-import { COLORS, FONT, hp, TEXT_STYLE } from '../../enums/StyleGuide';
+import { COLORS, TEXT_STYLE } from '../../enums/StyleGuide';
 import { IMAGES } from '../../assets/images';
-import { CustomButton, InputField, TextLabel } from '../../commons';
-import { useNavigation } from '@react-navigation/native';
+import { CustomButton, InputField, KeyboardAware, TextLabel } from '../../commons';
 import { SCREENS } from '../../enums';
 import { ForgotPasswordModal } from '../../components';
+import useRegisterScreenModalView from './useRegisterScreenModalView';
+import { styles } from './Styles';
 
 const RegisterScreen = () => {
-    const navigation = useNavigation<any>()
-    const [isForgotPasswordVisible, setForgotPasswordVisible] = useState(false);
-    const [isResetLoading, setResetLoading] = useState(false);
-
-    const handleForgotPasswordSubmit = async (email: string) => {
-        try {
-            setResetLoading(true);
-            // TODO: hook up to your reset-password API call
-            // await authService.sendResetLink(email);
-            setForgotPasswordVisible(false);
-        } catch (error) {
-            // TODO: surface an error toast/message here
-        } finally {
-            setResetLoading(false);
-        }
-    };
-
+    const {
+        name,
+        setName,
+        email,
+        setEmail,
+        password,
+        setPassword,
+        confirmPassword,
+        setConfirmPassword,
+        setForgotPasswordVisible,
+        registerWithEmail,
+        emailRegisterLoader,
+        resendVisible,
+        ResendVerificationEmail,
+        resendVeriEmailLoader,
+        googleLoader,
+        signInWithGoogle,
+        navigation,
+        forgotPasswordVisible,
+        handleForgotPasswordSubmit,
+        resetLoading
+    } = useRegisterScreenModalView()
     return (
         <SafeAreaView edges={['bottom']} style={styles.safeArea}>
-            <KeyboardAwareScrollView
-                style={styles.scroll}
-                contentContainerStyle={styles.scrollContent}
-                keyboardShouldPersistTaps="handled"
-                showsVerticalScrollIndicator={false}
-                bottomOffset={20}
-            >
+
+            <KeyboardAware contentContainerStyle={[styles.scrollContent, { paddingBottom: 0 }]}>
                 <View style={styles.logoWrapper}>
                     <Image source={IMAGES.APP_ICON} style={styles.logo} />
                 </View>
 
-                <TextLabel
-                    text="Register Now"
-                    style={[TEXT_STYLE.smallTitleSemiBold, styles.title]}
-                />
-                <TextLabel
-                    text="Create an account or login to explore about our app."
-                    style={[TEXT_STYLE.text, styles.subtitle]}
-                />
+                <TextLabel text="Register Now" style={[TEXT_STYLE.smallTitleSemiBold, styles.title]} />
+                <TextLabel text="Create an account or login to explore about our app." style={[TEXT_STYLE.text, styles.subtitle]} />
 
                 <InputField
                     placeHolder="Full Name"
@@ -57,6 +51,8 @@ const RegisterScreen = () => {
                     autoComplete="name"
                     returnKeyType="next"
                     source={IMAGES.USER}
+                    value={name}
+                    onChangeText={setName}
                 />
 
                 <InputField
@@ -67,6 +63,8 @@ const RegisterScreen = () => {
                     autoComplete="email"
                     returnKeyType="next"
                     source={IMAGES.EMAIL}
+                    value={email}
+                    onChangeText={setEmail}
                 />
 
                 <InputField
@@ -75,7 +73,9 @@ const RegisterScreen = () => {
                     inputFieldStyle={styles.fieldText}
                     autoComplete="password"
                     returnKeyType="next"
-                    source={IMAGES.EYE}
+                    secureTextEntry
+                    value={password}
+                    onChangeText={setPassword}
                 />
                 <InputField
                     placeHolder="Confirm Password"
@@ -83,7 +83,9 @@ const RegisterScreen = () => {
                     inputFieldStyle={styles.fieldText}
                     autoComplete="password"
                     returnKeyType="done"
-                    source={IMAGES.EYE}
+                    secureTextEntry
+                    value={confirmPassword}
+                    onChangeText={setConfirmPassword}
                 />
 
                 <View style={styles.forgotPasswordWrapper}>
@@ -95,8 +97,12 @@ const RegisterScreen = () => {
                     />
                 </View>
 
-                <CustomButton title="Register" buttonWrapper={styles.loginButton} />
+                <CustomButton onPress={registerWithEmail} loading={emailRegisterLoader} disabled={emailRegisterLoader} title="Register" buttonWrapper={styles.loginButton} />
+                {
+                    resendVisible &&
+                    <CustomButton onPress={ResendVerificationEmail} loading={resendVeriEmailLoader} disabled={resendVeriEmailLoader} title="Resend verfication link" buttonWrapper={styles.loginButton} />
 
+                }
                 <View style={styles.dividerRow}>
                     <View style={styles.dividerLine} />
                     <TextLabel
@@ -107,27 +113,29 @@ const RegisterScreen = () => {
                 </View>
 
                 <CustomButton
+                    disabled={googleLoader}
+                    loading={googleLoader}
+                    onPress={signInWithGoogle}
                     leftIcon={<Image source={IMAGES.GOOGLE} style={styles.googleIcon} />}
                     title="Continue with Google"
                     buttonTextStyle={styles.googleButtonText}
                     buttonWrapper={styles.googleButton}
                     colors={['#FFFFFF', '#EFEFEF']}
+                    loaderColor={COLORS.red}
                 />
-
-
-            </KeyboardAwareScrollView>
+            </KeyboardAware>
             <View style={styles.signUpRow}>
                 <TextLabel text={`Already have an account?\t`} style={styles.signUpPrompt} />
                 <TextLabel onPress={() => navigation.navigate(SCREENS.LOGIN_SCREEN)} selectable text="Sign in" style={styles.signUpLink} />
             </View>
 
             {
-                isForgotPasswordVisible &&
+                forgotPasswordVisible &&
                 <ForgotPasswordModal
-                    visible={isForgotPasswordVisible}
+                    visible={forgotPasswordVisible}
                     onClose={() => setForgotPasswordVisible(false)}
                     onSubmit={handleForgotPasswordSubmit}
-                    loading={isResetLoading}
+                    loading={resetLoading}
                 />
             }
 
@@ -136,109 +144,3 @@ const RegisterScreen = () => {
 };
 
 export default RegisterScreen;
-
-const styles = StyleSheet.create({
-    safeArea: {
-        flex: 1,
-        backgroundColor: COLORS.white,
-    },
-    scroll: {
-        flex: 1,
-    },
-    scrollContent: {
-        flexGrow: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: 16,
-    },
-    logoWrapper: {
-        height: 80,
-        width: 80,
-        borderRadius: 40,
-        backgroundColor: COLORS.white,
-        elevation: 8,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    logo: {
-        height: '100%',
-        width: '100%',
-        overflow: 'hidden',
-        borderRadius: 40,
-    },
-    title: {
-        marginTop: hp('2%'),
-    },
-    subtitle: {
-        marginTop: hp('1%'),
-        textAlign: 'center',
-        color: COLORS.grey3,
-    },
-    emailField: {
-        width: '100%',
-        marginTop: hp('2.5%'),
-    },
-    passwordField: {
-        width: '100%',
-        marginTop: hp('1.5%'),
-    },
-    fieldText: {
-        fontSize: 13,
-        height: hp('5.5%'),
-    },
-    forgotPasswordWrapper: {
-        width: '100%',
-        alignItems: 'flex-end',
-        justifyContent: 'center',
-        marginTop: hp('2.5%'),
-    },
-    forgotPasswordText: {
-        fontFamily: FONT.medium,
-        fontSize: 13,
-    },
-    loginButton: {
-        width: '100%',
-        marginTop: hp('2.5%'),
-    },
-    dividerRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '80%',
-        marginTop: hp('2%'),
-    },
-    dividerLine: {
-        flex: 1,
-        height: 1,
-        backgroundColor: COLORS.grey3,
-    },
-    dividerText: {
-        marginHorizontal: 12,
-        color: COLORS.grey3,
-    },
-    googleIcon: {
-        height: 18,
-        width: 18,
-    },
-    googleButtonText: {
-        color: COLORS.black,
-        fontSize: 15
-    },
-    googleButton: {
-        width: '100%',
-        marginTop: hp('2.5%'),
-    },
-    signUpRow: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: hp('2.5%')
-    },
-    signUpPrompt: {
-        fontSize: 12,
-    },
-    signUpLink: {
-        fontSize: 14,
-        fontFamily: FONT.semiBold,
-        color: COLORS.red,
-    },
-});
