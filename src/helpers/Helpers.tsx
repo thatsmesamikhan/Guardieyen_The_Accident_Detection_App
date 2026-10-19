@@ -37,6 +37,15 @@ export const getAuthErrorMessage = (
     }
 };
 
+const syncEmailIndex = async (uid: string, email: string | null) => {
+    if (!email) return;
+
+    const db = getFirestore();
+    const emailIndexRef = doc(db, 'emailIndex', email.toLowerCase());
+
+    await setDoc(emailIndexRef, { uid }, { merge: true });
+};
+
 export const syncGoogleUserToFirestore = async (
     user: { uid: string; displayName: string | null; email: string | null; photoURL: string | null },
     isNewUser: boolean | undefined,
@@ -57,14 +66,46 @@ export const syncGoogleUserToFirestore = async (
             ...profileData,
             createdAt: serverTimestamp(),
         });
+
+        await syncEmailIndex(user.uid, user.email);
         return;
     }
 
     const existingDoc = await getDoc(userDocRef);
-    if (!existingDoc.exists) {
+    if (!existingDoc.exists()) {
         await setDoc(userDocRef, {
             ...profileData,
             createdAt: serverTimestamp(),
         }, { merge: true });
     }
+
+    await syncEmailIndex(user.uid, user.email);
 };
+
+export const getFirebaseErrorMessage = (error: any): string => {
+    const code: string = error?.code ?? ''
+
+    switch (code) {
+        case 'firestore/permission-denied':
+        case 'permission-denied':
+            return "You don't have permission to do that. Please log in again."
+        case 'firestore/unavailable':
+        case 'unavailable':
+            return 'No connection to the server. Please check your internet and try again.'
+        case 'firestore/deadline-exceeded':
+        case 'deadline-exceeded':
+            return 'The request took too long. Please try again.'
+        case 'firestore/unauthenticated':
+        case 'unauthenticated':
+            return 'Your session has expired. Please log in again.'
+        case 'firestore/not-found':
+        case 'not-found':
+            return 'We could not find your medical info.'
+        case 'firestore/resource-exhausted':
+            return 'Too many requests. Please wait a moment and try again.'
+        case 'firestore/cancelled':
+            return 'The request was cancelled.'
+        default:
+            return error?.message ?? 'Something went wrong. Please try again.'
+    }
+}

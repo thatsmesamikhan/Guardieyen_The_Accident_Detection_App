@@ -9,12 +9,12 @@ export const SCREENS = {
     SETTINGS_SCREEN: 'SettingsScreen',
     ADD_CONTACT_SCREEN: 'AddContactScreen',
     PROFILE_SCREEN: 'ProfileScreen',
-    EDIT_NAME_SCREEN: 'EditNameScreen',
     CHANGE_PASSWORD_SCREEN: 'ChangePasswordScreen',
     MEDICAL_INFO_SCREEN: 'MedicalInfoScreen',
     PRIVACY_POLICY_SCREEN: 'PrivacyPolicyScreen',
     TERMS_AND_CONDITIONS_SCREEN: 'TermsAndConditionsScreen',
-    DANGER_ZONE_SCREEN: 'DangerZoneScreen'
+    DANGER_ZONE_SCREEN: 'DangerZoneScreen',
+    NOTIFICATION_SCREEN: 'NotificationScreen'
 }
 
 export const BOTTOM_TAB = {

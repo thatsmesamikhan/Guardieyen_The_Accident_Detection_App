@@ -108,17 +108,6 @@ export const contactsInfo = [
     { id: 3, title: 'Adeel Khan', relation: 'Brother', image: IMAGES.USER },
 ]
 
-export const bloodGroupInfoData = [
-    { id: 1, title: 'BLOOD GROUP', info: 'O+' },
-    { id: 2, title: 'CONDITIONS', info: 'Asthma' },
-]
-
-export const allergiesData = [
-    { id: 1, allergies: 'Peanuts' },
-    { id: 2, allergies: 'Penicillin' },
-    { id: 3, allergies: 'Dust' },
-]
-
 export const locationInfoData = [
     { id: 1, title: 'LATITUDE', info: '28.4201° N' },
     { id: 2, title: 'LONGITUDE', info: '70.2954° E' },

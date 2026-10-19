@@ -14,7 +14,6 @@ const RootNavigators = () => {
                 <Stack.Screen name={SCREENS.ON_BOARDING_SCREENS} component={ui.OnBoardingScreens} />
                 <Stack.Screen name={SCREENS.LOGIN_SCREEN} component={ui.LoginScreen} />
                 <Stack.Screen name={SCREENS.PROFILE_SCREEN} component={ui.ProfileScreen} />
-                <Stack.Screen name={SCREENS.EDIT_NAME_SCREEN} component={ui.EditNameScreen} />
                 <Stack.Screen name={SCREENS.CHANGE_PASSWORD_SCREEN} component={ui.ChangePasswordScreen} />
                 <Stack.Screen name={SCREENS.MEDICAL_INFO_SCREEN} component={ui.MedicalInfoScreen} />
                 <Stack.Screen name={SCREENS.PRIVACY_POLICY_SCREEN} component={ui.PrivacyPolicyScreen} />

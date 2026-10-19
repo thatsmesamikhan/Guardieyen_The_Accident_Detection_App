@@ -6,6 +6,7 @@ import Toast from 'react-native-toast-message';
 import { EMAIL_REGEX } from '../../enums/StyleGuide';
 import { BOTTOM_TAB } from '../../enums';
 import { getAuthErrorMessage } from '../../helpers/Helpers';
+import { setupPushNotificationsAfterLogin } from '../../services/pushNotifications';
 
 const useLoginScreenModalView = () => {
     const auth = getAuth()
@@ -85,6 +86,11 @@ const useLoginScreenModalView = () => {
                 await signOut(auth)
                 return
             }
+
+            // Fire-and-forget: never let a permission prompt or push setup
+            // hiccup block the user from reaching the app after a
+            // successful, verified login.
+            setupPushNotificationsAfterLogin(userCredential.user.uid)
 
             navigation.reset({
                 index: 0,

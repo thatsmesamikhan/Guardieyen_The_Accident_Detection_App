@@ -87,19 +87,19 @@ const styles = StyleSheet.create({
     },
     avatarContainer: {
         position: 'relative',
+        height : '100%'
     },
     avatarButton: {
         width: 56,
         height: 56,
         borderRadius: 28,
-        backgroundColor: '#F8F8F8',
         borderColor: COLORS.red,
         borderWidth: 2
     },
     avatar: {
         width: 56,
         height: 56,
-        tintColor: COLORS.grey2,
+        borderRadius : 30
     },
     infoContainer: {
         marginLeft: 14,

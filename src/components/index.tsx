@@ -7,6 +7,7 @@ import HomeScreenHeaderCard from "./homeScreenComponents/homeScreenHeaderCard"
 import HomeScreenInfoCard from "./homeScreenComponents/homeScreenInfoCard"
 import LocationInfoCard from "./homeScreenComponents/locationInfoCard"
 import SwitchButton from "./homeScreenComponents/switchButton"
+import LogoutModal from "./settingsScreenComponents/logoutModal"
 import SettingsScreenButton from "./settingsScreenComponents/settingsScreenButton"
 
 export {
@@ -19,5 +20,6 @@ export {
     BloodGroupInfoCard,
     AllergiesCard,
     LocationInfoCard,
-    SettingsScreenButton
+    SettingsScreenButton,
+    LogoutModal
 }

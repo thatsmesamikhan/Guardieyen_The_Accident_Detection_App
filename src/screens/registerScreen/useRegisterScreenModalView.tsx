@@ -149,6 +149,10 @@ const useRegisterScreenModalView = () => {
                         createdAt: serverTimestamp(),
                     }, { merge: true });
 
+                    await setDoc(doc(firestore, 'emailIndex', updatedUser.email!.toLowerCase()), {
+                        uid: updatedUser.uid,
+                    }, { merge: true });
+
                     Toast.show({
                         type: 'success',
                         text1: 'Success',

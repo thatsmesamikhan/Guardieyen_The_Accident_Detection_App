@@ -18,14 +18,14 @@ const INDICATOR_SIZE = 32;
 const tabIcons: Record<string, any> = {
     [SCREENS.HOME_SCREEN]: IMAGES.HOME,
     [SCREENS.CONTACTS_SCREEN]: IMAGES.CONTACTS,
-    [SCREENS.HISTORY_SCREEN]: IMAGES.HISTORY,
+    [SCREENS.NOTIFICATION_SCREEN]: IMAGES.BELL,
     [SCREENS.SETTINGS_SCREEN]: IMAGES.SETTINGS,
 };
 
 const tabLabels: Record<string, string> = {
     [SCREENS.HOME_SCREEN]: 'Home',
     [SCREENS.CONTACTS_SCREEN]: 'Contacts',
-    [SCREENS.HISTORY_SCREEN]: 'History',
+    [SCREENS.NOTIFICATION_SCREEN]: 'Notifications',
     [SCREENS.SETTINGS_SCREEN]: 'Settings',
 };
 
@@ -153,7 +153,9 @@ const BottomNavigators = () => {
         >
             <Tab.Screen options={{ tabBarLabel: 'Home' }} name={SCREENS.HOME_SCREEN} component={ui.HomeScreen} />
             <Tab.Screen options={{ tabBarLabel: 'Contacts' }} name={SCREENS.CONTACTS_SCREEN} component={ui.ContactsScreen} />
-            <Tab.Screen options={{ tabBarLabel: 'History' }} name={SCREENS.HISTORY_SCREEN} component={ui.HistoryScreen} />
+            {/* <Tab.Screen options={{ tabBarLabel: 'History' }} name={SCREENS.HISTORY_SCREEN} component={ui.HistoryScreen} /> */}
+
+            <Tab.Screen options={{ tabBarLabel: 'Notifications' }} name={SCREENS.NOTIFICATION_SCREEN} component={ui.NotificationScreen} />
             <Tab.Screen options={{ tabBarLabel: 'Settings' }} name={SCREENS.SETTINGS_SCREEN} component={ui.SettingsScreen} />
         </Tab.Navigator>
     );

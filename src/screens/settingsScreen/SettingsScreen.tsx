@@ -1,12 +1,14 @@
 import { SectionList, SectionListRenderItemInfo, StyleSheet } from 'react-native'
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { COLORS, commonStyles, FONT, hp, wp } from '../../enums/StyleGuide'
 import { NavBar, TextLabel } from '../../commons'
 import { IMAGES } from '../../assets/images'
-import { SettingsScreenButton } from '../../components'
+import { LogoutModal, SettingsScreenButton } from '../../components'
 import { useNavigation } from '@react-navigation/native';
 import { SCREENS } from '../../enums'
+import { getAuth } from '@react-native-firebase/auth'
+import Toast from 'react-native-toast-message'
 
 interface SettingsItem {
     id: number
@@ -21,37 +23,38 @@ interface SettingsSection {
 }
 
 const SettingsScreen = () => {
+    const auth = getAuth();
     const navigation = useNavigation<any>()
-    // Keeping section data outside the component would be even better for perf
-    // (it never changes), but leaving it here to match your original structure.
+    const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false)
+    const [logOutLoader, setLogOutLoader] = useState(false)
+
     const settingsSections: SettingsSection[] = [
         {
             title: 'Account',
             data: [
                 { id: 1, label: 'Your Profile', icon: IMAGES.USER },
-                { id: 2, label: 'Edit Name', icon: IMAGES.EDIT_NAME },
-                { id: 3, label: 'Change Password', icon: IMAGES.CHANGE_PASSWORD },
-                { id: 4, label: 'Change Language', icon: IMAGES.CHANGE_LANGUAGE },
+                { id: 2, label: 'Change Password', icon: IMAGES.CHANGE_PASSWORD },
+                { id: 3, label: 'Change Language', icon: IMAGES.CHANGE_LANGUAGE },
             ]
         },
         {
             title: 'Medical',
             data: [
-                { id: 5, label: 'Medical Information', icon: IMAGES.MEDICAL },
+                { id: 4, label: 'Medical Information', icon: IMAGES.MEDICAL },
             ]
         },
         {
             title: 'Legal',
             data: [
-                { id: 6, label: 'Privacy Policy', icon: IMAGES.PRIVACY_POLICY },
-                { id: 7, label: 'Terms and Conditions', icon: IMAGES.TERMS_AND_CONDITIONS },
+                { id: 5, label: 'Privacy Policy', icon: IMAGES.PRIVACY_POLICY },
+                { id: 6, label: 'Terms and Conditions', icon: IMAGES.TERMS_AND_CONDITIONS },
             ]
         },
         {
             title: 'Danger Zone',
             data: [
-                { id: 8, label: 'Danger Zone', icon: IMAGES.WARNING, isDanger: true },
-                { id: 9, label: 'Logout', icon: IMAGES.LOG_OUT, isDanger: true },
+                { id: 7, label: 'Danger Zone', icon: IMAGES.WARNING, isDanger: true },
+                { id: 8, label: 'Logout', icon: IMAGES.LOG_OUT, isDanger: true },
             ]
         }
     ]
@@ -64,28 +67,25 @@ const SettingsScreen = () => {
                 navigation.navigate(SCREENS.PROFILE_SCREEN)
                 break
             case 2:
-                navigation.navigate(SCREENS.EDIT_NAME_SCREEN)
-                break
-            case 3:
                 navigation.navigate(SCREENS.CHANGE_PASSWORD_SCREEN)
                 break
-            case 4:
-                // navigation.navigate('ChangeLanguage')
+            case 3:
+                // setIsLogoutModalVisible(true)
                 break
-            case 5:
+            case 4:
                 navigation.navigate(SCREENS.MEDICAL_INFO_SCREEN)
                 break
-            case 6:
+            case 5:
                 navigation.navigate(SCREENS.PRIVACY_POLICY_SCREEN)
                 break
-            case 7:
+            case 6:
                 navigation.navigate(SCREENS.TERMS_AND_CONDITIONS_SCREEN)
                 break
-            case 8:
+            case 7:
                 navigation.navigate(SCREENS.DANGER_ZONE_SCREEN)
                 break
-            case 9:
-
+            case 8:
+                setIsLogoutModalVisible(true)
                 break
             default:
                 break
@@ -104,9 +104,27 @@ const SettingsScreen = () => {
         )
     }, [handleItemPress])
 
+    const handleLogout = async () => {
+        try {
+            setLogOutLoader(true)
+            await auth.signOut()
+            navigation.reset({
+                index: 0,
+                routes: [
+                    { name: SCREENS.LOGIN_SCREEN },
+                ],
+
+            })
+        } catch (error) {
+            Toast.show({ type: "error", text1: String(error) })
+        } finally {
+            setLogOutLoader(false)
+        }
+    }
+
     return (
         <SafeAreaView edges={['top', 'bottom']} style={commonStyles.safeView}>
-            <NavBar headerLabel='Settings' />
+            <NavBar headerLabel='Settings' rightSource={IMAGES.QR_CODE} />
             <SectionList
                 sections={settingsSections}
                 keyExtractor={(item, index) => `${item.id}-${index}`}
@@ -119,6 +137,19 @@ const SettingsScreen = () => {
                 )}
                 renderItem={renderItem}
             />
+            {
+                isLogoutModalVisible &&
+                <LogoutModal
+                    loading={logOutLoader}
+                    disabled={logOutLoader}
+                    visible={isLogoutModalVisible}
+                    onCancel={() => setIsLogoutModalVisible(false)}
+                    onConfirm={handleLogout}
+                    title='Log Out'
+                    message='Are you sure you want to logout?'
+                    confirmLabel='Log Out'
+                />
+            }
         </SafeAreaView>
     )
 }

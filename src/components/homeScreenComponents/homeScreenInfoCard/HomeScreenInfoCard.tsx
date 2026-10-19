@@ -7,7 +7,9 @@ interface props {
     id?: number,
     title: string,
     info: string,
-    icon: ImageSourcePropType
+    // icon: ImageSourcePropType,
+    icon: ImageSourcePropType,
+    ok?: boolean
 }
 
 interface itemProp {
@@ -22,7 +24,7 @@ const HomeScreenInfoCard = ({ item }: itemProp) => {
             </View>
             <View style={styles.titleContainer}>
                 <TextLabel numberOfLines={1} text={item?.title} style={styles.titleStyle} />
-                <TextLabel numberOfLines={1} text={item?.info} style={styles.infoStyle} />
+                +<TextLabel numberOfLines={1} text={item?.info} style={[styles.infoStyle, item?.ok && { color: COLORS.green }]} />
             </View>
         </View>
     )
